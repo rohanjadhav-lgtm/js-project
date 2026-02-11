@@ -7,10 +7,16 @@ const apm = require('elastic-apm-node').start({
 const express = require('express');
 const app = express();
 
-app.get('/', (req, res) => {
-  res.send('Trace sent to APM Server!');
+// Add these to your index.js
+app.post('/api/data', (req, res) => {
+  res.status(201).send('Data received via POST');
+});
+
+app.get('/error', (req, res) => {
+  throw new Error('Something went wrong!'); // This triggers an Error Trace
 });
 
 app.listen(8080, () => {
   console.log('App is running on port 8080');
 });
+
